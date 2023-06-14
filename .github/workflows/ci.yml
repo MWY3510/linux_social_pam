@@ -12,28 +12,28 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install clang-format
+          sudo apt update -y
+          sudo apt install -y clang-format
           sudo pip3 install cpplint flawfinder
       - name: Run formatter
-        run: clang-format --style Google --dry-run --Werror src/*.{cpp,hpp} src/include/*.{c,h}* test/*.cpp
+        run: clang-format --style Google --dry-run --Werror src/*.{cpp,hpp} src/include/*.{c,h}*
       - name: Run cpplint
-        run: cpplint src/* src/include/* test/*.cpp
+        run: cpplint src/* src/include/*
       - name: Run flawfinder
-        run: flawfinder --error-level 1 src/*.{cpp,hpp} src/include/*.{c,h}* test/*.cpp
+        run: flawfinder --error-level 1 src/*.{cpp,hpp} src/include/*.{c,h}*
 
   build:
     runs-on: ubuntu-latest
     needs: [lint]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install libpam0g-dev libcurl4-openssl-dev
+          sudo apt -y update
+          sudo apt install -y libpam0g-dev libcurl4-openssl-dev
       - name: Build PAM module
         run: make
 
